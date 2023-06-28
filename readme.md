@@ -32,9 +32,9 @@ This tool created by myself could be considered as a new version of *VeSP 1.1* w
 
 Two examples files are at your disposal.
 
-*example1.vesp* : the program ends (**HLT** instruction) after 5 iterations of loop 
+**example1.vesp** : the program ends (**HLT** instruction) after 5 iterations of loop 
 
-*example2.vesp* : polymorphic code where the program ends (**HLT** instruction) after moving A to 1 (`LDA A,1`) and changes its own code to (`LDA A,0`) before checking `if A == 0`.
+**example2.vesp** : polymorphic code where the program ends (**HLT** instruction) after moving A to 1 (`LDA A,1`) and changes its own code to (`LDA A,0`) before checking `if A == 0`.
 
 ## Debugging color
 Is the debugging color annoying you ? You can disable/enable it by typing
