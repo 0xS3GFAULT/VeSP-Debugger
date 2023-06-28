@@ -89,7 +89,7 @@ see code <min_address>-<max_address>
 ```
 Example : `see code a-11` dumps lines of code from the address 0x000a to 0x0011
 
-&nbsp;`see code all` dumps every lines of code from the beginning to the end
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`see code all` dumps every lines of code from the beginning to the end
 
 ## Dump memory
 
@@ -99,7 +99,7 @@ see memory <min_address>-<max_address> <ascii>
 ```
 Example : `see memory ff-100` dumps the memory from the address 0x00ff to 0x0100
 
-&nbsp;`see memory 0-a ascii` dumps the memory from the address 0x0000 to 0x000a decoding ascii characters
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`see memory 0-a ascii` dumps the memory from the address 0x0000 to 0x000a decoding ascii characters
           
 ## Quit the debugger
 Simply type
