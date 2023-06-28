@@ -7,15 +7,6 @@ is either in registers or memory. See [VeSP Documentation](https://user.eng.umd.
 
 This language was used for two reverse engineering challenges in [Nahamcon CTF 2023](https://ctftime.org/event/2023/) (*writeright* and *ur_a_wizard*)
 
-# VeSP Debugger
-
-![title](images/title.png)
-
-This tool created by myself could be considered as a new version of *VeSP 1.1* which allows you to :
-  - Set breakpoints and continue the program execution until breakpoint is reached
-  - Dump memory, see registers, breakpoints and code in the style of [gdb-peda](https://github.com/longld/peda) / [gdb-gef](https://github.com/hugsy/gef)   
-  - Decode each instruction in a human readable way
-
 ## Note
 
 I probably found a bug at this line
@@ -28,8 +19,17 @@ JMP  Jump        Opcode: 100  ----- PC = IR[4:15]
 ```
 This bug has been patched in my debugger.
 
+# VeSP Debugger
+
+![title](images/title.png)
+
+This tool created by myself could be considered as a new version of *VeSP 1.1* which allows you to :
+  - Set breakpoints and continue the program execution until breakpoint is reached
+  - Dump memory, see registers, breakpoints and code in the style of [gdb-peda](https://github.com/longld/peda) / [gdb-gef](https://github.com/hugsy/gef)   
+  - Decode each instruction in a human readable way
+
 # How to use VeSP Debugger ?
-### Breakpoints
+## Breakpoints
 To set breakpoints, you can type
 ```
 breakpoint <address>
