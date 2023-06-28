@@ -76,50 +76,50 @@ def decoded_command(command,line):
 		return vesp.colors.YELLOW+"NEG A "+vesp.colors.RESET+"; A = ~A"
 	elif(command[0] == '2'):
 		if(command[1:] == "000"):
-			if(overflow):
+			"""if(overflow):
 				return vesp.colors.YELLOW+"LDA A,A "+vesp.colors.RESET+"; A = A"
 			if(vesp.code[line+1] == "0000"):
 				return vesp.colors.YELLOW+"LDA A,A "+vesp.colors.RESET+"; A = A"
 			elif(vesp.code[line+1] == "0001"):
 				return vesp.colors.YELLOW+"LDA A,B "+vesp.colors.RESET+"; A = B"
-			else:
-				return vesp.colors.YELLOW+"LDA A,M["+str(line+3)+"] "+vesp.colors.RESET+"; A = "+vesp.code[line+1]
+			else:"""
+			return vesp.colors.YELLOW+"LDA A,M["+str(line+3).rjust(4,'0')+"] "+vesp.colors.RESET+"; A = "+vesp.code[line+1]
 		elif(command[1:] == "001"):
-			if(overflow):
+			"""if(overflow):
 				return vesp.colors.YELLOW+"LDA B,A "+vesp.colors.RESET+" ; B = A"
 			if(vesp.code[line+1] == "0000"):
 				return vesp.colors.YELLOW+"LDA B,A"+vesp.colors.RESET+" ; B = A"
 			elif(vesp.code[line+1] == "0001"):
 				return vesp.colors.YELLOW+"LDA B,B"+vesp.colors.RESET+" ; B = B"
-			else:
-				return vesp.colors.YELLOW+"LDA B,M["+str(line+3)+"]"+vesp.colors.RESET+" ; B = "+vesp.code[line+1]
+			else:"""
+			return vesp.colors.YELLOW+"LDA B,M["+str(line+3).rjust(4,'0')+"]"+vesp.colors.RESET+" ; B = "+vesp.code[line+1]
 		else:
-			if(overflow):
-				return vesp.colors.YELLOW+"LDA M["+command[1:]+"],A"+vesp.colors.RESET+" ; M["+command[1:]+"] = A"
-			return vesp.colors.YELLOW+"LDA M["+command[1:]+"],M["+vesp.code[line+1]+"]"+vesp.colors.RESET+" ; M["+command[1:]+"] = M["+vesp.code[line+1]+"]"
+			"""if(overflow):
+				return vesp.colors.YELLOW+"LDA M["+command[1:]+"],A"+vesp.colors.RESET+" ; M["+command[1:]+"] = A" """
+			return vesp.colors.YELLOW+"LDA M["+command[1:]+"],M["+str(line+3).rjust(4,'0')+"]"+vesp.colors.RESET+" ; M["+command[1:]+"] = "+vesp.code[line+1]
 	elif(command[0] == '3'):
 		if(command[1:] == "000"):
-			if(overflow):
+			"""if(overflow):
 				return vesp.colors.YELLOW+"MOV A,A"+vesp.colors.RESET+" ; A = A"
 			if(vesp.code[line+1][1:] == "000"):
 				return vesp.colors.YELLOW+"MOV A,A"+vesp.colors.RESET+" ; A = A"
 			elif(vesp.code[line+1][1:] == "001"):
 				return vesp.colors.YELLOW+"MOV A,B"+vesp.colors.RESET+" ; A = B"
-			else:
-				return vesp.colors.YELLOW+"MOV A,M[M["+str(line+3)+"]]"+vesp.colors.RESET+" ; A = M["+vesp.code[line+1][1:]+"]"
+			else:"""
+			return vesp.colors.YELLOW+"MOV A,M[M["+str(line+3).rjust(3,'0')+"]]"+vesp.colors.RESET+" ; A = M["+vesp.code[line+1][1:]+"]"
 		elif(command[1:] == "001"):
-			if(overflow):
+			"""if(overflow):
 				return vesp.colors.YELLOW+"MOV B,A"+vesp.colors.RESET+" ; B = A"
 			if(vesp.code[line+1][1:] == "000"):
 				return vesp.colors.YELLOW+"MOV B,A"+vesp.colors.RESET+" ; B = A"
 			elif(vesp.code[line+1][1:] == "001"):
 				return vesp.colors.YELLOW+"MOV B,B"+vesp.colors.RESET+" ; B = B"
-			else:
-				return vesp.colors.YELLOW+"MOV B,M[M["+str(line+3)+"]]"+vesp.colors.RESET+" ; B = M["+vesp.code[line+1][1:]+"]"
+			else:"""
+			return vesp.colors.YELLOW+"MOV B,M[M["+str(line+3).rjust(3,'0')+"]]"+vesp.colors.RESET+" ; B = M["+vesp.code[line+1][1:]+"]"
 		else:
-			if(overflow):
-				return vesp.colors.YELLOW+"MOV M["+command[1:]+"],A"+vesp.colors.RESET+" ; M["+command[1:]+"] = A"
-			return vesp.colors.YELLOW+"MOV M["+command[1:]+"],M[M["+str(line+3)+"]]"+vesp.colors.RESET+" ; M["+command[1:]+"] = M["+vesp.code[line+1][1:]+"]"
+			"""if(overflow):
+				return vesp.colors.YELLOW+"MOV M["+command[1:]+"],A"+vesp.colors.RESET+" ; M["+command[1:]+"] = A" """
+			return vesp.colors.YELLOW+"MOV M["+command[1:]+"],M[M["+str(line+3).rjust(3,'0')+"]]"+vesp.colors.RESET+" ; M["+command[1:]+"] = M["+vesp.code[line+1][1:]+"]"
 	elif(command[0] == '4'):
 		return vesp.colors.YELLOW+"JMP "+command[1:]+vesp.colors.RESET+" ; PC = "+command[1:]
 	elif(command[0] == '5'):
@@ -129,7 +129,7 @@ def decoded_command(command,line):
 	elif(command[0] == '7'):
 		return vesp.colors.YELLOW+"HLT"+vesp.colors.RESET
 	else:
-		return "????????"
+		return ""
 
 def see(l):
 	if(len(l) < 2):
@@ -161,9 +161,28 @@ def see(l):
 		count = MIN-2
 		overflow = False
 		while count <= MAX-2:
-			decoded = None
+			if(vesp.instructions[count+2]):
+				decoded = decoded_command(vesp.code[count],count)
+			else:
+				decoded = ""
+			if(count+2 == vesp.PC and vesp.start == True):
+				if(count+2 in vesp.breakpoints):
+					print(vesp.colors.GREEN+"\t===>|  set here"+"  |   "+hex(count+2)[2:].rjust(4,'0')+"  | "+str(vesp.code[count]).rjust(4,'0')+" | ",end="")
+				else:
+					print(vesp.colors.GREEN+"\t===>|            |   "+hex(count+2)[2:].rjust(4,'0')+"  | "+str(vesp.code[count]).rjust(4,'0')+" | ",end="")
+				decoded = decoded.replace(vesp.colors.YELLOW,vesp.colors.GREEN)
+				decoded = decoded.replace(vesp.colors.RESET,"")
+			else:
+				if(count+2 in vesp.breakpoints):
+					print("\t    |  "+vesp.colors.RED+"set here"+vesp.colors.RESET+"  |   "+hex(count+2)[2:].rjust(4,'0')+"  | "+vesp.colors.BLUE+str(vesp.code[count]).rjust(4,'0')+vesp.colors.RESET+" | ",end="")
+				else:
+					print("\t    |            |   "+hex(count+2)[2:].rjust(4,'0')+"  | "+vesp.colors.BLUE+str(vesp.code[count]).rjust(4,'0')+vesp.colors.RESET+" | ",end="")
+			print(decoded+vesp.colors.RESET)
+			count+=1
+			"""decoded = None
 			if(MAR_needed == False):
 				decoded = decoded_command(vesp.code[count],count)
+			else:
 				MAR_needed = False
 			if(count+2 == vesp.PC and vesp.start == True):
 				if(count+2 in vesp.breakpoints):
@@ -179,6 +198,7 @@ def see(l):
 					print("\t    |            |   "+hex(count+2)[2:].rjust(4,'0')+"  | "+vesp.colors.BLUE+str(vesp.code[count]).rjust(4,'0')+vesp.colors.RESET+" | ",end="")
 			if(vesp.code[count][0] == '2' or vesp.code[count][0] == '3'):
 				print(decoded)
+				print("OK3")
 				MAR_needed = True
 				count += 1
 				print(vesp.colors.RESET,end="")
@@ -193,8 +213,8 @@ def see(l):
 				print(decoded)
 				count += 1
 				MAR_needed = False
-				print(vesp.colors.RESET,end="")
-		print("\t#######################################################################################################")
+				print(vesp.colors.RESET,end="")"""
+		#print("\t#######################################################################################################")
 		return
 	elif(l[1] == "breakpoint" or l[1] == "break" or l[1] == 'b'):
 		print("\t#############################################[ BREAKPOINTS ]#############################################")
@@ -214,10 +234,14 @@ def see(l):
 		else:
 			print("\t#############################################[ REGISTERS ]#############################################")
 			print(vesp.colors.BLUE+"\t       A : "+hex(vesp.memory[0])[2:].rjust(4,'0')+"\t\t           B : "+hex(vesp.memory[1])[2:].rjust(4,'0'))
-			if(vesp.instructions[vesp.MAR]):
-				print(vesp.colors.BLUE+"\t      IR : "+hex(vesp.IR)[2:].rjust(4,'0')+"\t\t          PC : "+hex(vesp.PC)[2:].rjust(4,'0')+" --> "+decoded_command(vesp.code[vesp.PC-2],vesp.PC-2))
-				print(vesp.colors.BLUE+"\t   CLOCK : "+hex(vesp.CLOCK)[2:].rjust(4,'0')+"\t\t         MAR : "+hex(vesp.MAR)[2:].rjust(4,'0')+" --> "+decoded_command(vesp.code[vesp.MAR-2],vesp.MAR-2))
-			else:
+			try:
+				if(vesp.instructions[vesp.MAR]):
+					print(vesp.colors.BLUE+"\t      IR : "+hex(vesp.IR)[2:].rjust(4,'0')+"\t\t          PC : "+hex(vesp.PC)[2:].rjust(4,'0')+" --> "+decoded_command(vesp.code[vesp.PC-2],vesp.PC-2))
+					print(vesp.colors.BLUE+"\t   CLOCK : "+hex(vesp.CLOCK)[2:].rjust(4,'0')+"\t\t         MAR : "+hex(vesp.MAR)[2:].rjust(4,'0')+" --> "+decoded_command(vesp.code[vesp.MAR-2],vesp.MAR-2))
+				else:
+					print(vesp.colors.BLUE+"\t      IR : "+hex(vesp.IR)[2:].rjust(4,'0')+"\t\t          PC : "+hex(vesp.PC)[2:].rjust(4,'0'))
+					print(vesp.colors.BLUE+"\t   CLOCK : "+hex(vesp.CLOCK)[2:].rjust(4,'0')+"\t\t         MAR : "+hex(vesp.MAR)[2:].rjust(4,'0'))
+			except KeyError:
 				print(vesp.colors.BLUE+"\t      IR : "+hex(vesp.IR)[2:].rjust(4,'0')+"\t\t          PC : "+hex(vesp.PC)[2:].rjust(4,'0'))
 				print(vesp.colors.BLUE+"\t   CLOCK : "+hex(vesp.CLOCK)[2:].rjust(4,'0')+"\t\t         MAR : "+hex(vesp.MAR)[2:].rjust(4,'0'))
 			carry = vesp.colors.YELLOW+"CARRY" if vesp.c else vesp.colors.BLUE+"carry"
@@ -229,7 +253,7 @@ def see(l):
 			reset = vesp.colors.YELLOW+"RESET" if vesp.reset else vesp.colors.BLUE+"reset"
 			print(vesp.colors.BLUE+"\n\t   FLAGS : ["+carry+" "+overflow+" "+sign+" "+zero+" "+complement+" "+add+" "+reset+vesp.colors.BLUE+"]")
 			print(vesp.colors.RESET,end="")
-			print("\t#######################################################################################################")
+			#print("\t#######################################################################################################")
 	elif(l[1] == "memory" or l[1] == "mem" or l[1] == 'm'):
 		if(len(l) < 3):
 			print(vesp.colors.RED+"\tInvalid see command. Type 'help see' for help."+vesp.colors.RESET)
@@ -259,7 +283,7 @@ def see(l):
 						print()
 				except KeyError:
 					print()
-			print("\t####################################################################################################")
+			#print("\t####################################################################################################")
 	else:
 		print(vesp.colors.RED+"\tInvalid see command. Type 'help see' for help."+vesp.colors.RESET)
 
@@ -305,6 +329,15 @@ def fetch():
 	if(vesp.code[vesp.PC-2][0] == '2' or vesp.code[vesp.PC-2][0] == '3'):
 		vesp.PC += 1
 	vesp.PC += 1
+	if(vesp.need_to_jmp):
+		vesp.need_to_jmp = False
+		vesp.PC = vesp.IR & 0x0fff
+	if(vesp.need_to_jps):
+		vesp.need_to_jps = False
+		vesp.PC = vesp.IR & 0x0fff
+	if(vesp.need_to_jez):
+		vesp.need_to_jez = False
+		vesp.PC = vesp.IR & 0x0fff
 	vesp.MAR = vesp.PC
 	vesp.CLOCK += 1
 	vesp.IR = vesp.memory[vesp.MAR]
@@ -326,30 +359,49 @@ def decode_and_execute(instruction,line):
 		vesp.s = 1 if(bin(vesp.memory[0]).rjust(16,'0')[-1] == '1') else 0
 		vesp.CLOCK += 1
 		vesp.add = 1
+		vesp.memory_refresh()
 	elif(instruction[0] == '1'):
 		vesp.memory[0] = (~vesp.memory[0]+1) % 0xffff
 		vesp.CLOCK += 1
 		vesp.complement = 1
+		vesp.memory_refresh()
 	elif(instruction[0] == '2'):
 		vesp.memory[vesp.IR & 0x0fff] = vesp.memory[vesp.MAR+1]
 		vesp.CLOCK += 1
+		vesp.memory_refresh()
 	elif(instruction[0] == '3'):
 		vesp.memory[vesp.IR & 0x0fff] = vesp.memory[vesp.memory[vesp.MAR+1]]
 		vesp.CLOCK += 2
+		vesp.memory_refresh()
 	elif(instruction[0] == '4'):
-		vesp.PC = vesp.IR & 0x0fff
+		if(instruction[1:4] == "000" or instruction[1:4] == "001"):
+			vesp.reset = 1
+			print(vesp.colors.RED+"\tInvalid instruction : program stopped."+vesp.colors.RESET)
+			return
+		vesp.need_to_jmp = True
 		vesp.CLOCK += 1
 	elif(instruction[0] == '5'):
+		if(instruction[1:4] == "000" or instruction[1:4] == "001"):
+			vesp.reset = 1
+			print(vesp.colors.RED+"\tInvalid instruction : program stopped."+vesp.colors.RESET)
+			return
 		if(vesp.memory[0] == 0):
-			vesp.PC = vesp.IR & 0x0fff
+			vesp.need_to_jez = True
 		vesp.CLOCK += 1
 	elif(instruction[0] == '6'):
+		if(instruction[1:4] == "000" or instruction[1:4] == "001"):
+			vesp.reset = 1
+			print(vesp.colors.RED+"\tInvalid instruction : program stopped."+vesp.colors.RESET)
+			return
 		if(vesp.memory[0] > 0):
-			vesp.PC = vesp.IR & 0x0fff
+			vesp.need_to_jps = True
 		vesp.CLOCK += 1
 	elif(instruction[0] == '7'):
 		vesp.reset = 1
 		vesp.CLOCK += 1
+	else:
+		vesp.reset = 1
+		print(vesp.colors.RED+"\tInvalid instruction : program stopped."+vesp.colors.RESET)
 
 def initialize_from_beginning():
 	vesp.memory[0] = 0
@@ -396,13 +448,14 @@ def nexti():
 	if(vesp.start == False):
 		print(vesp.colors.RED+"\tThe program is not started."+vesp.colors.RESET)
 		return
-	fetch()
-	decode_and_execute(vesp.code[vesp.PC-2],vesp.PC-2)
 	if(vesp.reset):
 		vesp.start = False
 		print(vesp.colors.BLUE+"\tThe program stopped because of HLT instruction at address "+hex(vesp.PC)[2:].rjust(4,'0')+vesp.colors.RESET)
 		return
 	if(vesp.PC in vesp.breakpoints):
+		fetch()
+		decode_and_execute(vesp.code[vesp.PC-2],vesp.PC-2)
+		#print(vesp.code[vesp.PC-2])
 		see(["see","registers"])
 		mini = vesp.PC-2
 		maxi = vesp.PC+2
@@ -411,8 +464,10 @@ def nexti():
 		if(maxi > len(vesp.code)):
 			maxi = len(vesp.code)+1
 		see(["see","code",hex(mini)[2:]+"-"+hex(maxi)[2:]])
-		print(vesp.colors.BLUE+"\tBreakpoint reached at address "+hex(vesp.PC)[2:].rjust(4,'0')+vesp.colors.RESET)
+		
+		#print(vesp.colors.BLUE+"\tBreakpoint reached at address "+hex(vesp.PC)[2:].rjust(4,'0')+vesp.colors.RESET)
 		return
+	fetch()
 	see(["see","registers"])
 	mini = vesp.PC-2
 	maxi = vesp.PC+2
@@ -421,6 +476,7 @@ def nexti():
 	if(maxi > len(vesp.code)):
 		maxi = len(vesp.code)+1
 	see(["see","code",hex(mini)[2:]+"-"+hex(maxi)[2:]])
+	decode_and_execute(vesp.code[vesp.PC-2],vesp.PC-2)
 
 def continue_function():
 	if(vesp.start == False):
@@ -461,6 +517,9 @@ class Vesp_class:
 		self.IR = 0
 		self.MAR = 1
 		self.CLOCK = 0
+		self.need_to_jmp = False
+		self.need_to_jez = False
+		self.need_to_jps = False
 		self.breakpoints = []
 		self.start = False
 		self.instructions = {}
@@ -468,12 +527,16 @@ class Vesp_class:
 		self.file_errors()
 		with open(sys.argv[1],"r") as file:
 			self.code = [x.replace('\n','') for x in file.readlines()]
+			self.old_code = self.code
+			self.code = [x for x in self.code if x != '']
 		self.color = True
 		self.content_errors()
 		self.code_analyzer()
 		for i in range(len(self.code)):
 			self.memory[i+2] = int(self.code[i],16)
 		self.instruction_verification()
+		print(self.instructions)
+		input()
 
 	def file_errors(self):
 		if(len(sys.argv) < 2):
@@ -493,9 +556,11 @@ class Vesp_class:
 			print(self.colors.RED+"\n\tThe file '"+sys.argv[1]+"' is empty\n"+self.colors.RESET)
 			exit()
 		try:
-			for i in range(len(self.code)):
-				assert len(self.code[i])==4
-				int(self.code[i],16)
+			for i in range(len(self.old_code)):
+				if(self.old_code[i] == ''):
+					continue
+				assert len(self.old_code[i])==4
+				int(self.old_code[i],16)
 		except AssertionError:
 			print(self.colors.RED+"\n\tThe file '"+sys.argv[1]+"' has invalid VeSP code at line "+str(i+1)+" : "+self.code[i]+"\n"+self.colors.RESET)
 			exit()
@@ -506,12 +571,15 @@ class Vesp_class:
 	def code_analyzer(self):
 		MAR_needed = False
 		count = 0
-		while count < len(self.code):
-			if(self.code[count][0] == '2' or self.code[count][0] == '3'):
+		while count < len(self.old_code):
+			if(self.old_code[count] == ''):
+				count += 1
+				continue
+			if(self.old_code[count][0] == '2' or self.old_code[count][0] == '3'):
 				count += 2
 				continue
-			if(self.code[count][0] not in "01234567"):
-				print(self.colors.RED+"\n\tThe file '"+sys.argv[1]+"' has invalid VeSP code at line "+str(count+1)+" : "+self.code[count]+".\n\tNo instruction with opcode "+self.code[count][0]+".\n"+self.colors.RESET)
+			if(self.old_code[count][0] not in "01234567"):
+				print(self.colors.RED+"\n\tThe file '"+sys.argv[1]+"' has invalid VeSP code at line "+str(count+1)+" : "+self.old_code[count]+".\n\tNo instruction with opcode "+self.old_code[count][0]+".\n"+self.colors.RESET)
 				exit()
 			count += 1
 
@@ -524,6 +592,11 @@ class Vesp_class:
 			if(MAR_needed == False):
 				decoded = None if self.code[count][0] not in "01234567" else True
 				MAR_needed = False
+			else:
+				MAR_needed = False
+				self.instructions[count+2] = False
+				count += 1
+				continue
 			if(self.code[count][0] == '2' or self.code[count][0] == '3'):
 				self.instructions[count+2] = True
 				MAR_needed = True
@@ -538,5 +611,9 @@ class Vesp_class:
 				self.instructions[count+2] = True
 				count += 1
 				MAR_needed = False
+
+	def memory_refresh(self):
+		for i in range(len(self.code)):
+			self.code[i] = hex(self.memory[i+2])[2:].rjust(4,'0')
 
 vesp = Vesp_class()
