@@ -29,6 +29,13 @@ This tool created by myself could be considered as a new version of *VeSP 1.1* w
   - Decode each instruction in a human readable way
 
 # How to use VeSP Debugger ?
+## Debugging color
+Is the debugging color annoying you ? You can disable/enable it by typing
+```
+color <yes/no>
+```
+Example : `color yes` enables debugging color and `color no` disables color
+
 ## Breakpoints
 To set breakpoints, you can type
 ```
