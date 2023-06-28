@@ -56,7 +56,20 @@ To run the program type
 ```
 run
 ```
-It will execute instructions until **HLT** instruction is reached or until a breakpoint is reached.
+It will execute instructions from the beginning until **HLT** instruction is reached or until a breakpoint is reached.
+
+*Note : If a breakpoint hasn't been set previously, you won't see registers nor memory.* 
+
+After a breakpoint is reached, you can continue instructions execution with
+```
+continue
+```
+It will execute instructions after the previous breakpoint until **HLT** instruction or until a breakpoint is reached.
+
+If you want to step the execution instruction by instruction you can use
+```
+nexti
+```
 
 ## Quit the debugger
 Simply type
