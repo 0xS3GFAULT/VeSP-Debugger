@@ -76,4 +76,4 @@ Simply type
 ```
 quit
 ```
-It is simple as that.
+It is as simple as that.
