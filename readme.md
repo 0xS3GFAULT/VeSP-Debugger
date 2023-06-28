@@ -29,9 +29,14 @@ JMP  Jump        Opcode: 100  ----- PC = IR[4:15]
 This bug has been patched in my debugger.
 
 # How to use VeSP Debugger ?
-## Breakpoints
+### Breakpoints
 To set breakpoints, you can type
 ```
 breakpoint <address>
 ```
 Example : `breakpoint ff` sets a breakpoint at address 0xff
+To delete breakpoints, you can type
+```
+del <address>
+```
+Example : `del fa` dletes a breakpoint previously set at address 0xfa
