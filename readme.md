@@ -71,6 +71,26 @@ If you want to step the execution instruction by instruction you can use
 nexti
 ```
 
+## See registers, breakpoints and code
+
+To see registers, type
+```
+see registers
+```
+
+To see breakpoints, type
+```
+see breakpoint
+```
+
+To see lines of code, type
+```
+see code <min_address>-<max_address>
+```
+Example : `see code a-11` dumps lines of code from the address 0x000a to 0x0011
+
+## Dump memory
+
 ## Quit the debugger
 Simply type
 ```
