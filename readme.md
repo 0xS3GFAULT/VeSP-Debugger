@@ -48,3 +48,19 @@ To delete breakpoints, you can type
 del <address>
 ```
 Example : `del fa` dletes a breakpoint previously set at address 0xfa.
+
+*Note : The code instructions always start at address 0x0002* 
+
+## Run the program
+To run the program type
+```
+run
+```
+It will execute instructions until **HLT** instruction is reached or until a breakpoint is reached.
+
+## Quit the debugger
+Simply type
+```
+quit
+```
+It is simple as that.
