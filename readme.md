@@ -99,10 +99,10 @@ see memory <min_address>-<max_address> <ascii>
 ```
 Example : `see memory ff-100` dumps the memory from the address 0x00ff to 0x0100
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`see memory 0-a ascii` dumps the memory from the address 0x0000 to 0x000a decoding ascii characters
+
 *Note : VeSP memory has a capacity of 8192 short values (16384 bytes) (memory size is 0x2000)*
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`see memory 0-a ascii` dumps the memory from the address 0x0000 to 0x000a decoding ascii characters
-          
 ## Quit the debugger
 Simply type
 ```
