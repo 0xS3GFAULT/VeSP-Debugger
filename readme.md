@@ -34,9 +34,10 @@ To set breakpoints, you can type
 ```
 breakpoint <address>
 ```
-Example : `breakpoint ff` sets a breakpoint at address 0xff
+Example : `breakpoint ff` sets a breakpoint at address 0xff.
+
 To delete breakpoints, you can type
 ```
 del <address>
 ```
-Example : `del fa` dletes a breakpoint previously set at address 0xfa
+Example : `del fa` dletes a breakpoint previously set at address 0xfa.
